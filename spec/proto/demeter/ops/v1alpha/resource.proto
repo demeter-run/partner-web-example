@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package demeter.ops.v1alpha;
+
+message CreateResourceRequest {
+  string project_id = 1; 
+  string kind = 2; 
+  string spec = 3; 
+}
+message CreateResourceResponse {
+  string id = 1;
+  string name = 2; 
+  string kind = 3; 
+}
+
+message UpdateResourceRequest {
+  string id = 1; 
+  string spec_patch = 2; 
+}
+message UpdateResourceResponse {
+  Resource updated = 1; 
+}
+
+message Resource {
+  string id = 1;
+  string name = 2; 
+  string kind = 3; 
+  string spec = 4; 
+  optional string annotations = 5; 
+  string status = 6; 
+  string created_at = 7; 
+  string updated_at = 8; 
+}
+
+message FetchResourcesRequest {
+  string project_id = 1;
+  optional uint32 page = 2;
+  optional uint32 page_size = 3;
+  optional string category = 4;
+}
+message FetchResourcesResponse {
+  repeated Resource records = 1;
+}
+
+message FetchResourcesByIdRequest {
+  string id = 1;
+}
+message FetchResourcesByIdResponse {
+  repeated Resource records = 1;
+}
+
+message DeleteResourceRequest {
+  string id = 1; 
+}
+message DeleteResourceResponse {}
+
+service ResourceService {
+  rpc FetchResources(FetchResourcesRequest) returns (FetchResourcesResponse);
+  rpc FetchResourcesById(FetchResourcesByIdRequest) returns (FetchResourcesByIdResponse);
+  rpc CreateResource(CreateResourceRequest) returns (CreateResourceResponse);
+  rpc UpdateResource(UpdateResourceRequest) returns (UpdateResourceResponse);
+  rpc DeleteResource(DeleteResourceRequest) returns (DeleteResourceResponse);
+}
+

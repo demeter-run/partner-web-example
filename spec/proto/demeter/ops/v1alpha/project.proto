@@ -1,0 +1,185 @@
+syntax = "proto3";
+
+package demeter.ops.v1alpha;
+
+message Project {
+  string id = 1;
+  string name = 2; 
+  string namespace = 3; 
+  string status = 4; 
+  string billing_provider = 5;
+  string billing_provider_id = 6;
+  optional string billing_subscription_id = 7;
+  string created_at = 8; 
+  string updated_at = 9; 
+}
+
+message CreateProjectRequest {
+  string name = 1; 
+}
+message CreateProjectResponse {
+  string id = 1;
+  string name = 2; 
+  string namespace = 3; 
+}
+
+message UpdateProjectRequest {
+  string id = 1;
+  string name = 2; 
+}
+message UpdateProjectResponse {
+  Project updated = 1;
+}
+
+message FetchProjectsRequest {
+  optional uint32 page = 1;
+  optional uint32 page_size = 2;
+}
+message FetchProjectsResponse {
+  repeated Project records = 2;
+}
+
+message FetchProjectByIdRequest {
+  string id = 1;
+}
+message FetchProjectByIdResponse {
+  repeated Project records = 1;
+}
+
+message FetchProjectByNamespaceRequest {
+  string namespace = 1;
+}
+message FetchProjectByNamespaceResponse {
+  repeated Project records = 1;
+}
+
+message DeleteProjectRequest {
+  string id = 1; 
+}
+message DeleteProjectResponse {}
+
+
+message ProjectSecret {
+  string id = 1;
+  string project_id = 2;
+  string name = 3; 
+  string created_at = 4; 
+}
+
+message CreateProjectSecretRequest {
+  string name = 1; 
+  string project_id = 2;
+}
+message CreateProjectSecretResponse {
+  string id = 1;
+  string name = 2; 
+  string key = 3;
+}
+
+message FetchProjectSecretsRequest {
+  string project_id = 1;
+}
+message FetchProjectSecretsResponse {
+  repeated ProjectSecret records = 2;
+}
+
+message DeleteProjectSecretRequest {
+  string id = 1; 
+}
+message DeleteProjectSecretResponse {}
+
+message ProjectUser {
+  string project_id = 1; 
+  string user_id = 2; 
+  string name = 3; 
+  string email = 4; 
+  string role = 5; 
+  string created_at = 6; 
+}
+
+message FetchProjectUsersRequest {
+  string project_id = 1;
+  optional uint32 page = 2;
+  optional uint32 page_size = 3;
+}
+message FetchProjectUsersResponse {
+  repeated ProjectUser records = 1;
+}
+
+message FetchMeProjectUserRequest {
+  string project_id = 1;
+}
+message FetchMeProjectUserResponse {
+  repeated ProjectUser records = 1;
+}
+
+message DeleteProjectUserRequest {
+  string project_id = 1; 
+  string id = 2; 
+}
+message DeleteProjectUserResponse {}
+
+message ProjectUserInvite {
+  string id = 1;
+  string project_id = 2; 
+  string email = 3; 
+  string role = 4; 
+  string status = 5; 
+  string expires_in = 6; 
+  string created_at = 7; 
+  string updated_at = 8; 
+}
+
+message FetchProjectUserInvitesRequest {
+  string project_id = 1;
+  optional uint32 page = 2;
+  optional uint32 page_size = 3;
+}
+message FetchProjectUserInvitesResponse {
+  repeated ProjectUserInvite records = 1;
+}
+
+message CreateProjectUserInviteRequest {
+  string project_id = 1;
+  string email = 2;
+  string role = 3;
+}
+message CreateProjectUserInviteResponse {}
+
+message AcceptProjectUserInviteRequest {
+  string code = 1;
+}
+message AcceptProjectUserInviteResponse {}
+
+message ResendProjectUserInviteRequest {
+  string id = 1;
+}
+message ResendProjectUserInviteResponse {}
+
+message DeleteProjectUserInviteRequest {
+  string id = 1; 
+}
+message DeleteProjectUserInviteResponse {}
+
+service ProjectService {
+  rpc FetchProjects(FetchProjectsRequest) returns (FetchProjectsResponse);
+  rpc FetchProjectById(FetchProjectByIdRequest) returns (FetchProjectByIdResponse);
+  rpc FetchProjectByNamespace(FetchProjectByNamespaceRequest) returns (FetchProjectByNamespaceResponse);
+  rpc CreateProject(CreateProjectRequest) returns (CreateProjectResponse);
+  rpc UpdateProject(UpdateProjectRequest) returns (UpdateProjectResponse);
+  rpc DeleteProject(DeleteProjectRequest) returns (DeleteProjectResponse);
+
+  rpc FetchProjectSecrets(FetchProjectSecretsRequest) returns (FetchProjectSecretsResponse);
+  rpc CreateProjectSecret(CreateProjectSecretRequest) returns (CreateProjectSecretResponse);
+  rpc DeleteProjectSecret(DeleteProjectSecretRequest) returns (DeleteProjectSecretResponse);
+
+  rpc FetchProjectUsers(FetchProjectUsersRequest) returns (FetchProjectUsersResponse);
+  rpc FetchMeProjectUser(FetchMeProjectUserRequest) returns (FetchMeProjectUserResponse);
+  rpc DeleteProjectUser(DeleteProjectUserRequest) returns (DeleteProjectUserResponse);
+
+  rpc FetchProjectUserInvites(FetchProjectUserInvitesRequest) returns (FetchProjectUserInvitesResponse);
+  rpc CreateProjectUserInvite(CreateProjectUserInviteRequest) returns (CreateProjectUserInviteResponse);
+  rpc AcceptProjectUserInvite(AcceptProjectUserInviteRequest) returns (AcceptProjectUserInviteResponse);
+  rpc ResendProjectUserInvite(ResendProjectUserInviteRequest) returns (ResendProjectUserInviteResponse);
+  rpc DeleteProjectUserInvite(DeleteProjectUserInviteRequest) returns (DeleteProjectUserInviteResponse);
+}

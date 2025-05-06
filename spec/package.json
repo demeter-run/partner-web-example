@@ -1,0 +1,11 @@
+{
+    "name": "@demeter/spec",
+    "devDependencies": {
+        "@bufbuild/buf": "1.39.0",
+        "@bufbuild/protoc-gen-es": "1.4.2",
+        "@connectrpc/protoc-gen-connect-es": "^1.4.0"
+    },
+    "scripts": {
+        "build": "buf generate"
+    }
+}
