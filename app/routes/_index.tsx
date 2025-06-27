@@ -1,14 +1,24 @@
-import { ActionFunction, LoaderFunction, Session } from "@remix-run/node";
+import { createClient } from "@connectrpc/connect";
+import { createConnectTransport } from "@connectrpc/connect-web";
+import { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import { DemeterService } from "~/services/demeter";
+import { config } from "~/config";
+import { DemeterClientService } from "~/services/demeter.client";
+import { DemeterServerService } from "~/services/demeter.server";
 import { getSession } from "~/session";
-import { Project } from "~/spec/gen/node/src/proto/demeter/ops/v1alpha/project_pb";
+import { Project, ProjectService } from "~/spec/gen/node/src/proto/demeter/ops/v1alpha/project_pb";
 import { CreateResourceResponse, Resource } from "~/spec/gen/node/src/proto/demeter/ops/v1alpha/resource_pb";
+
+import { ProjectServiceClient } from "~/spec/gen/web/src/proto/demeter/ops/v1alpha/ProjectServiceClientPb";
+import { FetchProjectsRequest } from "~/spec/gen/web/src/proto/demeter/ops/v1alpha/project_pb";
 
 type LoaderResult = {
   isAuthenticated: boolean,
-  projects: Project[]
+  projects: Project[],
+  // WARNING: only for web grpc example
+  url: string | undefined
+  token: string | undefined
 };
 
 type ActionResult = {
@@ -19,13 +29,13 @@ export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get('Cookie'));
   const token = session.get('token');
 
-  const result: LoaderResult = { isAuthenticated: !!token, projects: [], }
+  const result: LoaderResult = { isAuthenticated: !!token, projects: [], token, url: config.api.url }
 
   if (!token) {
     return result
   }
 
-  const demeterService = new DemeterService(token)
+  const demeterService = new DemeterServerService(token)
   result.projects = await demeterService.getProjects()
 
   if (!result.projects.length) {
@@ -46,7 +56,7 @@ export const action: ActionFunction = async ({ request }) => {
     return result
   }
 
-  const demeterService = new DemeterService(token)
+  const demeterService = new DemeterServerService(token)
 
   const formData = await request.formData();
   const projectId = formData.get("projectId")
@@ -89,12 +99,13 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 export default function Index() {
-  const { isAuthenticated, projects } = useLoaderData<LoaderResult>();
+  const { isAuthenticated, projects, token, url } = useLoaderData<LoaderResult>();
 
   const [projectSelected, setProjectSelected] = useState<Project>(projects?.[0])
   const [resources, setResources] = useState<Resource[]>([])
 
   const fetcher = useFetcher()
+
 
   useEffect(() => {
     (async () => {
@@ -121,6 +132,24 @@ export default function Index() {
     })
   }
 
+  async function getProjectsUsingWeb() {
+    if (url && token) {
+      const projectClient = new ProjectServiceClient(url, {
+        Authorization: `Bearer ${token}`,
+      })
+
+
+      let request = new FetchProjectsRequest();
+      let result = await projectClient.fetchProjects(request);
+      console.log(result.getRecordsList())
+
+      // console.log(url, token)
+      // let client_client = new DemeterClientService(url, token)
+      // let projects = await client_client.getProjects()
+      // console.log(projects)
+    }
+  }
+
   const loading = fetcher.state == 'submitting' || fetcher.state == 'loading';
 
   return (
@@ -142,6 +171,12 @@ export default function Index() {
           <>
             <div className="mb-6">
               <a href="/logout" className="px-2 py-1 rounded-sm bg-red-500"> logout </a>
+            </div>
+
+            <div className="mb-6">
+              <button type="button" className="py-1 px-2 bg-green-500 rounded-sm" onClick={getProjectsUsingWeb}>
+                blabla
+              </button>
             </div>
 
             <div className="flex space-x-12">

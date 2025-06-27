@@ -11,9 +11,10 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@bufbuild/protobuf": "1.4.2",
-    "@connectrpc/connect": "1.4",
-    "@connectrpc/connect-node": "1.4",
+    "@bufbuild/protobuf": "2.5.2",
+    "@connectrpc/connect": "2.0.2",
+    "@connectrpc/connect-node": "2.0.2",
+    "@connectrpc/connect-web": "2.0.2",
     "@remix-run/node": "^2.16.5",
     "@remix-run/react": "^2.16.5",
     "@remix-run/serve": "^2.16.5",
