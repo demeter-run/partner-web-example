@@ -14,8 +14,5 @@ plugins:
     opt:
       - target=ts
 
-  - plugin: grpc-web
+  - plugin: ts
     out: ../app/spec/gen/web/src
-    opt:
-      - import_style=typescript
-      - mode=grpcwebtext
