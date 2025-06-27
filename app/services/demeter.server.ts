@@ -1,17 +1,13 @@
-import { createPromiseClient, Interceptor } from '@connectrpc/connect';
+import { createClient, Interceptor } from '@connectrpc/connect';
 import { createGrpcTransport } from '@connectrpc/connect-node';
 import { config } from '~/config';
 
-import { ProjectService } from '~/spec/gen/node/src/proto/demeter/ops/v1alpha/project_connect';
-import { CreateProjectResponse, Project } from '~/spec/gen/node/src/proto/demeter/ops/v1alpha/project_pb';
-import { ResourceService } from '~/spec/gen/node/src/proto/demeter/ops/v1alpha/resource_connect';
-import { Resource } from '~/spec/gen/node/src/proto/demeter/ops/v1alpha/resource_pb';
+import { ProjectService, CreateProjectResponse, Project } from '~/spec/gen/node/src/proto/demeter/ops/v1alpha/project_pb';
+import { ResourceService, Resource } from '~/spec/gen/node/src/proto/demeter/ops/v1alpha/resource_pb';
 
-
-
-export class DemeterService {
-  private projectClient: ReturnType<typeof createPromiseClient<typeof ProjectService>>;
-  private resourceClient: ReturnType<typeof createPromiseClient<typeof ResourceService>>;
+export class DemeterServerService {
+  private projectClient: ReturnType<typeof createClient<typeof ProjectService>>;
+  private resourceClient: ReturnType<typeof createClient<typeof ResourceService>>;
 
   constructor(token: string) {
     const headerInterceptor = metadataInterceptor({
@@ -21,13 +17,12 @@ export class DemeterService {
     });
 
     const transport = createGrpcTransport({
-      httpVersion: '2',
       baseUrl: config.api.url,
       interceptors: [headerInterceptor],
     });
 
-    this.projectClient = createPromiseClient(ProjectService, transport);
-    this.resourceClient = createPromiseClient(ResourceService, transport);
+    this.projectClient = createClient(ProjectService, transport);
+    this.resourceClient = createClient(ResourceService, transport);
   }
 
   async getProjects(limit: number = 100, page: number = 1): Promise<Array<Project>> {
@@ -81,3 +76,4 @@ function metadataInterceptor(options?: ClientBuilderOptions): Interceptor {
     return await next(req);
   };
 }
+

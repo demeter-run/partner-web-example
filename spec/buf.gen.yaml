@@ -13,3 +13,6 @@ plugins:
     out: ../app/spec/gen/node/src
     opt:
       - target=ts
+
+  - plugin: ts
+    out: ../app/spec/gen/web/src

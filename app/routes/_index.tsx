@@ -1,14 +1,14 @@
-import { ActionFunction, LoaderFunction, Session } from "@remix-run/node";
+import { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import { DemeterService } from "~/services/demeter";
+import { DemeterServerService } from "~/services/demeter.server";
 import { getSession } from "~/session";
 import { Project } from "~/spec/gen/node/src/proto/demeter/ops/v1alpha/project_pb";
 import { CreateResourceResponse, Resource } from "~/spec/gen/node/src/proto/demeter/ops/v1alpha/resource_pb";
 
 type LoaderResult = {
   isAuthenticated: boolean,
-  projects: Project[]
+  projects: Project[],
 };
 
 type ActionResult = {
@@ -19,13 +19,13 @@ export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get('Cookie'));
   const token = session.get('token');
 
-  const result: LoaderResult = { isAuthenticated: !!token, projects: [], }
+  const result: LoaderResult = { isAuthenticated: !!token, projects: [] }
 
   if (!token) {
     return result
   }
 
-  const demeterService = new DemeterService(token)
+  const demeterService = new DemeterServerService(token)
   result.projects = await demeterService.getProjects()
 
   if (!result.projects.length) {
@@ -46,7 +46,7 @@ export const action: ActionFunction = async ({ request }) => {
     return result
   }
 
-  const demeterService = new DemeterService(token)
+  const demeterService = new DemeterServerService(token)
 
   const formData = await request.formData();
   const projectId = formData.get("projectId")
@@ -96,6 +96,7 @@ export default function Index() {
 
   const fetcher = useFetcher()
 
+
   useEffect(() => {
     (async () => {
       const response = await fetch(`/api/${projectSelected.id}/resources`)
@@ -126,8 +127,14 @@ export default function Index() {
   return (
     <div className="flex flex-col h-screen items-center justify-center">
       <h1 className="leading text-2xl font-bold mb-6">
-        Custom Demeter UI
+        Custom Demeter UI (Server Side)
       </h1>
+
+      <div className="mb-3">
+        <a className="underline" href="/client">
+          Web GRPC
+        </a>
+      </div>
 
       {
         !isAuthenticated && (

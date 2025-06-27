@@ -9,14 +9,17 @@ importers:
   .:
     dependencies:
       '@bufbuild/protobuf':
-        specifier: 1.4.2
-        version: 1.4.2
+        specifier: 2.5.2
+        version: 2.5.2
       '@connectrpc/connect':
-        specifier: '1.4'
-        version: 1.4.0(@bufbuild/protobuf@1.4.2)
+        specifier: 2.0.2
+        version: 2.0.2(@bufbuild/protobuf@2.5.2)
       '@connectrpc/connect-node':
-        specifier: '1.4'
-        version: 1.4.0(@bufbuild/protobuf@1.4.2)(@connectrpc/connect@1.4.0(@bufbuild/protobuf@1.4.2))
+        specifier: 2.0.2
+        version: 2.0.2(@bufbuild/protobuf@2.5.2)(@connectrpc/connect@2.0.2(@bufbuild/protobuf@2.5.2))
+      '@connectrpc/connect-web':
+        specifier: 2.0.2
+        version: 2.0.2(@bufbuild/protobuf@2.5.2)(@connectrpc/connect@2.0.2(@bufbuild/protobuf@2.5.2))
       '@remix-run/node':
         specifier: ^2.16.5
         version: 2.16.5(typescript@5.8.3)
@@ -26,6 +29,9 @@ importers:
       '@remix-run/serve':
         specifier: ^2.16.5
         version: 2.16.5(typescript@5.8.3)
+      google-protobuf:
+        specifier: ^3.21.4
+        version: 3.21.4
       isbot:
         specifier: ^4.1.0
         version: 4.4.0
@@ -233,20 +239,26 @@ packages:
     resolution: {integrity: sha512-+EzkxvLNfiUeKMgy/3luqfsCWFRXLb7U6wNQTk60tovuckwB15B191tJWvpp4HjiQWdJkCxO3Wbvc6jlk3Xb2Q==}
     engines: {node: '>=6.9.0'}
 
-  '@bufbuild/protobuf@1.4.2':
-    resolution: {integrity: sha512-JyEH8Z+OD5Sc2opSg86qMHn1EM1Sa+zj/Tc0ovxdwk56ByVNONJSabuCUbLQp+eKN3rWNfrho0X+3SEqEPXIow==}
+  '@bufbuild/protobuf@2.5.2':
+    resolution: {integrity: sha512-foZ7qr0IsUBjzWIq+SuBLfdQCpJ1j8cTuNNT4owngTHoN5KsJb8L9t65fzz7SCeSWzescoOil/0ldqiL041ABg==}
 
-  '@connectrpc/connect-node@1.4.0':
-    resolution: {integrity: sha512-0ANnrr6SvsjevsWEgdzHy7BaHkluZyS6s4xNoVt7RBHFR5V/kT9lPokoIbYUOU9JHzdRgTaS3x5595mwUsu15g==}
-    engines: {node: '>=16.0.0'}
+  '@connectrpc/connect-node@2.0.2':
+    resolution: {integrity: sha512-33Ut3SRkb6SugpwVCtXXRvUrOdtiyG6z6d5+eijBOLOI75sw1tDCwcs0o/9WL3rUj1M08dLUrPmJB47fjpv6EA==}
+    engines: {node: '>=18.14.1'}
     peerDependencies:
-      '@bufbuild/protobuf': ^1.4.2
-      '@connectrpc/connect': 1.4.0
+      '@bufbuild/protobuf': ^2.2.0
+      '@connectrpc/connect': 2.0.2
 
-  '@connectrpc/connect@1.4.0':
-    resolution: {integrity: sha512-vZeOkKaAjyV4+RH3+rJZIfDFJAfr+7fyYr6sLDKbYX3uuTVszhFe9/YKf5DNqrDb5cKdKVlYkGn6DTDqMitAnA==}
+  '@connectrpc/connect-web@2.0.2':
+    resolution: {integrity: sha512-QANMFPiL2o66BdBEctg4TsQLe5ozsBLqcle3dCBp7BwGlNGTY6NnNnqmt+YRnpeMW88GgomJwWNMGCrRD9pRKA==}
     peerDependencies:
-      '@bufbuild/protobuf': ^1.4.2
+      '@bufbuild/protobuf': ^2.2.0
+      '@connectrpc/connect': 2.0.2
+
+  '@connectrpc/connect@2.0.2':
+    resolution: {integrity: sha512-xZuylIUNvNlH52e/4eQsZvY4QZyDJRtEFEDnn/yBrv5Xi5ZZI/p8X+GAHH35ucVaBvv9u7OzHZo8+tEh1EFTxA==}
+    peerDependencies:
+      '@bufbuild/protobuf': ^2.2.0
 
   '@emnapi/core@1.4.3':
     resolution: {integrity: sha512-4m62DuCE07lw01soJwPiBGC0nAww0Q+RY70VZ+n49yDIO13yyinhbWCeNnaob0lakDtWQzSdtNWzJeOJt2ma+g==}
@@ -697,10 +709,6 @@ packages:
   '@eslint/js@8.57.1':
     resolution: {integrity: sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-
-  '@fastify/busboy@2.1.1':
-    resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
-    engines: {node: '>=14'}
 
   '@humanwhocodes/config-array@0.13.0':
     resolution: {integrity: sha512-DZLEEqFWQFiyK6h5YIeynKx7JlvCYWL0cImfSRXZ9l4Sg2efkFGTuFf6vzXjK1cq6IYkU+Eg/JizXw+TD2vRNw==}
@@ -2062,6 +2070,9 @@ packages:
 
   globrex@0.1.2:
     resolution: {integrity: sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==}
+
+  google-protobuf@3.21.4:
+    resolution: {integrity: sha512-MnG7N936zcKTco4Jd2PX2U96Kf9PxygAPKBug+74LHzmHXmceN16MmRcdgZv+DGef/S9YvQAfRsNCn4cjf9yyQ==}
 
   gopd@1.2.0:
     resolution: {integrity: sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==}
@@ -3567,10 +3578,6 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
-  undici@5.29.0:
-    resolution: {integrity: sha512-raqeBD6NQK4SkWhQzeYKd1KmIG6dllBOTt55Rmkt4HtI9mwdWtJljnrXjAFUBLTSN67HWrOIZ3EPF4kjUw80Bg==}
-    engines: {node: '>=14.0'}
-
   undici@6.21.2:
     resolution: {integrity: sha512-uROZWze0R0itiAKVPsYhFov9LxrPMHLMEQFszeI2gCN6bnIIZ8twzBCJcN2LJrBBLfrP0t1FW0g+JmKVl8Vk1g==}
     engines: {node: '>=18.17'}
@@ -4044,17 +4051,21 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
 
-  '@bufbuild/protobuf@1.4.2': {}
+  '@bufbuild/protobuf@2.5.2': {}
 
-  '@connectrpc/connect-node@1.4.0(@bufbuild/protobuf@1.4.2)(@connectrpc/connect@1.4.0(@bufbuild/protobuf@1.4.2))':
+  '@connectrpc/connect-node@2.0.2(@bufbuild/protobuf@2.5.2)(@connectrpc/connect@2.0.2(@bufbuild/protobuf@2.5.2))':
     dependencies:
-      '@bufbuild/protobuf': 1.4.2
-      '@connectrpc/connect': 1.4.0(@bufbuild/protobuf@1.4.2)
-      undici: 5.29.0
+      '@bufbuild/protobuf': 2.5.2
+      '@connectrpc/connect': 2.0.2(@bufbuild/protobuf@2.5.2)
 
-  '@connectrpc/connect@1.4.0(@bufbuild/protobuf@1.4.2)':
+  '@connectrpc/connect-web@2.0.2(@bufbuild/protobuf@2.5.2)(@connectrpc/connect@2.0.2(@bufbuild/protobuf@2.5.2))':
     dependencies:
-      '@bufbuild/protobuf': 1.4.2
+      '@bufbuild/protobuf': 2.5.2
+      '@connectrpc/connect': 2.0.2(@bufbuild/protobuf@2.5.2)
+
+  '@connectrpc/connect@2.0.2(@bufbuild/protobuf@2.5.2)':
+    dependencies:
+      '@bufbuild/protobuf': 2.5.2
 
   '@emnapi/core@1.4.3':
     dependencies:
@@ -4306,8 +4317,6 @@ snapshots:
       - supports-color
 
   '@eslint/js@8.57.1': {}
-
-  '@fastify/busboy@2.1.1': {}
 
   '@humanwhocodes/config-array@0.13.0':
     dependencies:
@@ -6047,6 +6056,8 @@ snapshots:
       slash: 3.0.0
 
   globrex@0.1.2: {}
+
+  google-protobuf@3.21.4: {}
 
   gopd@1.2.0: {}
 
@@ -7858,10 +7869,6 @@ snapshots:
       which-boxed-primitive: 1.1.1
 
   undici-types@6.21.0: {}
-
-  undici@5.29.0:
-    dependencies:
-      '@fastify/busboy': 2.1.1
 
   undici@6.21.2: {}
 

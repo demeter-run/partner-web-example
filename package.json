@@ -11,12 +11,15 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@bufbuild/protobuf": "1.4.2",
-    "@connectrpc/connect": "1.4",
-    "@connectrpc/connect-node": "1.4",
+    "@bufbuild/protobuf": "2.5.2",
+    "@connectrpc/connect": "2.0.2",
+    "@connectrpc/connect-node": "2.0.2",
+    "@connectrpc/connect-web": "2.0.2",
+    "@protobuf-ts/grpcweb-transport": "^2.11.1",
     "@remix-run/node": "^2.16.5",
     "@remix-run/react": "^2.16.5",
     "@remix-run/serve": "^2.16.5",
+    "google-protobuf": "^3.21.4",
     "isbot": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
